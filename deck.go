@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"math/rand"
 	"strings"
+	"time"
 )
 
 // define a deck type which is []string
@@ -70,4 +72,17 @@ func CreateDeckFromFile(fileName string) deck {
 
 	// return deck
 	return deck(cards)
+}
+
+// method to shuffle cards
+func (d deck) Shuffle() {
+	rand.Seed(time.Now().UTC().UnixNano())
+	// loop through all elemnts in the deck
+	for i := range d {
+		// generate randIndex
+		randIndex := rand.Intn(len(d) - 1)
+		fmt.Printf("i = %d, rand=%d\n", i, randIndex)
+		// swap two elements in the array
+		d[i], d[randIndex] = d[randIndex], d[i]
+	}
 }
