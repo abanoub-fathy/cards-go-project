@@ -1,6 +1,9 @@
 package main
 
-import "testing"
+import (
+	"os"
+	"testing"
+)
 
 func TestCreateDeck(t *testing.T) {
 	d1 := CreateNewDeck()
@@ -20,4 +23,24 @@ func TestCreateDeck(t *testing.T) {
 		t.Errorf("Expected last card Four of Clubs but got %v", d1[len(d1)-1])
 	}
 
+}
+
+func TestCreateAndReadDeckFromFile(t *testing.T) {
+	fileName := "_deckTesting.txt"
+	// remove the file
+	os.Remove(fileName)
+
+	// create new deck and save it to a file
+	d1 := CreateNewDeck()
+	d1.SaveToFile(fileName)
+
+	// create second deck from that file
+	d2 := CreateDeckFromFile(fileName)
+
+	// remove the file
+	os.Remove(fileName)
+
+	if len(d2) != len(d1) {
+		t.Errorf("Expected len=%v but got len=%v", len(d1), len(d2))
+	}
 }
